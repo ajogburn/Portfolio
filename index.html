@@ -1,232 +1,431 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Anthony Ogburn - Portfolio</title>
+  <title>Anthony Ogburn — Portfolio</title>
+  <meta name="description" content="Anthony Ogburn — Software Engineer building modern web experiences and scalable systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <style>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+      --color-surface: #0a0a0b;
+      --color-elevated: #141416;
+      --color-border: #27272a;
+      --color-muted: #a1a1aa;
+      --color-accent: #22d3ee;
+      --color-accent-soft: #164e63;
+    }
+
     html {
       scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .hero-glow {
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(34, 211, 238, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(34, 211, 238, 0.04), transparent);
+    }
+
+    .project-card {
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.5);
+    }
+
+    .skill-pill {
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .skill-pill:hover {
+      border-color: var(--color-accent);
+      background-color: rgba(34, 211, 238, 0.05);
+    }
+
+    .nav-link {
+      position: relative;
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--color-accent);
+      transition: width 0.2s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    #mobile-menu {
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    #mobile-menu.hidden {
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
     }
   </style>
 </head>
 
-<body class="bg-zinc-950 text-zinc-100">
+<body class="bg-[var(--color-surface)] text-zinc-100">
 
   <!-- Navbar -->
-  <nav class="fixed top-0 w-full bg-black border-b border-zinc-700 z-50">
-    <div class="max-w-6xl mx-auto px-6 py-5 flex justify-between items-center">
-      <div class="text-2xl font-bold">
+  <nav class="fixed top-0 w-full z-50 border-b border-[var(--color-border)] bg-[var(--color-surface)]/80 backdrop-blur-md">
+    <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+      <a href="#hero-section" class="text-lg font-semibold tracking-tight hover:text-cyan-400 transition">
         Anthony Ogburn
+      </a>
+
+      <div class="hidden md:flex gap-8 text-sm text-zinc-400">
+        <a href="#about" class="nav-link hover:text-zinc-100 transition">About</a>
+        <a href="#skills" class="nav-link hover:text-zinc-100 transition">Skills</a>
+        <a href="#projects" class="nav-link hover:text-zinc-100 transition">Projects</a>
+        <a href="#contact" class="nav-link hover:text-zinc-100 transition">Contact</a>
       </div>
 
-      <div class="flex gap-8">
-        <a href="#about" class="hover:text-cyan-400 transition">About</a>
-        <a href="#skills" class="hover:text-cyan-400 transition">Skills</a>
-        <a href="#projects" class="hover:text-cyan-400 transition">Projects</a>
-        <a href="#contact" class="hover:text-cyan-400 transition">Contact</a>
+      <button id="menu-btn" class="md:hidden text-zinc-400 hover:text-zinc-100 transition" aria-label="Toggle menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+
+    <div id="mobile-menu" class="hidden md:hidden border-t border-[var(--color-border)] bg-[var(--color-surface)]">
+      <div class="max-w-5xl mx-auto px-6 py-4 flex flex-col gap-4 text-sm text-zinc-400">
+        <a href="#about" class="hover:text-zinc-100 transition">About</a>
+        <a href="#skills" class="hover:text-zinc-100 transition">Skills</a>
+        <a href="#projects" class="hover:text-zinc-100 transition">Projects</a>
+        <a href="#contact" class="hover:text-zinc-100 transition">Contact</a>
       </div>
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <section id="hero-section" class="min-h-screen flex items-center justify-center pt-20">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-      <h1 class="text-6xl md:text-7xl font-bold tracking-tighter mb-4">
+  <!-- Hero -->
+  <section id="hero-section" class="hero-glow min-h-screen flex items-center justify-center pt-20">
+    <div class="max-w-5xl mx-auto px-6 text-center">
+      <p class="text-sm font-medium text-cyan-400 tracking-widest uppercase mb-6">Software Engineer</p>
+
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">
         Anthony Ogburn
       </h1>
 
-      <h2 class="text-3xl md:text-4xl text-cyan-400 mb-8">
-        Software Engineer
-      </h2>
-
-      <p class="max-w-2xl mx-auto text-lg md:text-xl text-zinc-400 leading-relaxed">
-        Driven Software Engineer focused on pushing AI technology forward
-        through scalable systems and MLOps.
+      <p class="max-w-xl mx-auto text-lg text-[var(--color-muted)] leading-relaxed mb-10">
+        I build clean, modern web experiences and scalable systems — with a focus on AI, MLOps, and turning complex ideas into polished products.
       </p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#projects"
+          class="px-6 py-3 bg-cyan-400 hover:bg-cyan-300 text-zinc-950 font-medium rounded-lg transition text-sm">
+          View My Work
+        </a>
+        <a href="#contact"
+          class="px-6 py-3 border border-[var(--color-border)] hover:border-zinc-500 text-zinc-300 font-medium rounded-lg transition text-sm">
+          Get In Touch
+        </a>
+      </div>
     </div>
   </section>
 
-  <!-- About Section -->
-  <section id="about" class="py-24">
-    <div class="max-w-6xl mx-auto px-6">
-
+  <!-- About -->
+  <section id="about" class="py-28">
+    <div class="max-w-5xl mx-auto px-6">
       <div class="grid md:grid-cols-2 gap-16 items-center">
 
-        <!-- Photo Column -->
-        <div class="flex justify-center">
-          <div class="w-80 h-80 bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-700">
+        <div class="flex justify-center md:justify-start">
+          <div class="w-72 h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden border border-[var(--color-border)]">
             <img src="https://images.pexels.com/photos/33349204/pexels-photo-33349204.jpeg" alt="Anthony Ogburn"
               class="w-full h-full object-cover">
           </div>
         </div>
 
-        <!-- Text Column -->
         <div>
-          <h2 class="text-4xl font-bold mb-6">About Me</h2>
+          <h2 class="text-3xl font-bold mb-2">About Me</h2>
+          <div class="w-12 h-0.5 bg-cyan-400 mb-8"></div>
 
-          <p class="text-zinc-400 text-lg leading-relaxed mb-6">
+          <p class="text-[var(--color-muted)] leading-relaxed mb-5">
             I'm a passionate Software Engineer with a strong focus on Artificial Intelligence,
             Machine Learning, and building scalable systems.
           </p>
 
-          <p class="text-zinc-400 text-lg leading-relaxed mb-8">
-            I enjoy turning complex problems into clean, efficient solutions and I'm always
-            eager to learn new technologies and push the boundaries of what's possible.
+          <p class="text-[var(--color-muted)] leading-relaxed mb-8">
+            I enjoy turning complex problems into clean, efficient solutions — from client-facing business websites
+            to backend infrastructure. Always learning, always building.
           </p>
 
-          <div class="flex gap-4">
-            <a href="#" class="px-6 py-3 bg-cyan-500 hover:bg-cyan-400 text-black font-semibold rounded-xl transition">
-              Download Resume
-            </a>
-            <a href="#contact" class="px-6 py-3 border border-zinc-700 hover:border-zinc-500 rounded-xl transition">
+          <div class="flex flex-wrap gap-3">
+            <a href="#contact"
+              class="px-5 py-2.5 bg-cyan-400 hover:bg-cyan-300 text-zinc-950 font-medium rounded-lg transition text-sm">
               Get In Touch
             </a>
+            <a href="https://github.com/ajogburn" target="_blank" rel="noopener noreferrer"
+              class="px-5 py-2.5 border border-[var(--color-border)] hover:border-zinc-500 text-zinc-300 font-medium rounded-lg transition text-sm">
+              GitHub
+            </a>
           </div>
         </div>
 
       </div>
     </div>
   </section>
-  <!-- Skiss and Technologies -->
-  <section id="skills" class="py-24 bg-zinc-900">
-    <div class="max-w-6x1 mx-auto px-6">
-      <h2 class="text-4x1 font-bold text-center mb-16">Skills & Technologies</h2>
-      <div class="grid col-span-2 md:grid-cols-3 lg:grid-cols-4">
 
-        <!-- Problem solving and logical thinking -->
-        <div class="bg-zinc-800 p-6 rounded-2xl border border-zinc-700 hover:border-cyan-400 transition">
-          <div class="text-cyan-400 text-3xl mb-4">🛠️</div>
-          <h3 class="font-semibold text-lg">Problem Solving</h3>
-          <p class="text-zinc-400 text-sm mt-1">Building Projects</p>
-        </div>
-        <!-- Web Development -->
-        <div class="bg-zinc-800 p-6 rounded-2xl border border-zinc-700 hover:border-cyan-400 transition">
-          <div class="text-cyan-400 text-3xl mb-4">🌐</div>
-          <h3 class="font-semibold text-lg">Web Development</h3>
-          <p class="text-zinc-400 text-sm mt-1">Intermediate</p>
-        </div>
-
-        <!-- Tailwind -->
-        <div class="bg-zinc-800 p-6 rounded-2xl border border-zinc-700 hover:border-cyan-400 transition">
-          <div class="text-cyan-400 text-3xl mb-4">🎨</div>
-          <h3 class="font-semibold text-lg">Tailwind CSS</h3>
-          <p class="text-zinc-400 text-sm mt-1">Intermediate</p>
-        </div>
-
-        <!-- Python -->
-        <div class="bg-zinc-800 p-6 rounded-2xl border border-zinc-700 hover:border-cyan-400 transition">
-          <div class="text-cyan-400 text-3xl mb-4">🐍</div>
-          <h3 class="font-semibold text-lg">Python</h3>
-          <p class="text-zinc-400 text-sm mt-1">Learning</p>
-        </div>
-
-        <!-- Git & GitHub -->
-        <div class="bg-zinc-800 p-6 rounded-2xl border border-zinc-700 hover:border-cyan-400 transition">
-          <div class="text-cyan-400 text-3xl mb-4">🔀</div>
-          <h3 class="font-semibold text-lg">GitHub</h3>
-          <p class="text-zinc-400 text-sm mt-1">Intermediate</p>
-        </div>
-
-        <!-- AI / Machine Learning -->
-        <div class="bg-zinc-800 p-6 rounded-2xl border border-zinc-700 hover:border-cyan-400 transition">
-          <div class="text-cyan-400 text-3xl mb-4">🤖</div>
-          <h3 class="font-semibold text-lg">AI & Machine Learning</h3>
-          <p class="text-zinc-400 text-sm mt-1">Learning</p>
-        </div>
-
+  <!-- Skills -->
+  <section id="skills" class="py-28 border-y border-[var(--color-border)]">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl font-bold mb-2">Skills & Technologies</h2>
+        <p class="text-[var(--color-muted)] text-sm">Tools and areas I work with</p>
       </div>
 
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+        <div class="skill-pill bg-[var(--color-elevated)] p-5 rounded-xl border border-[var(--color-border)]">
+          <h3 class="font-medium text-sm mb-1">Web Development</h3>
+          <p class="text-[var(--color-muted)] text-xs">HTML, CSS, responsive design</p>
+        </div>
+        <div class="skill-pill bg-[var(--color-elevated)] p-5 rounded-xl border border-[var(--color-border)]">
+          <h3 class="font-medium text-sm mb-1">Tailwind CSS</h3>
+          <p class="text-[var(--color-muted)] text-xs">Utility-first styling</p>
+        </div>
+        <div class="skill-pill bg-[var(--color-elevated)] p-5 rounded-xl border border-[var(--color-border)]">
+          <h3 class="font-medium text-sm mb-1">Python</h3>
+          <p class="text-[var(--color-muted)] text-xs">Scripting & automation</p>
+        </div>
+        <div class="skill-pill bg-[var(--color-elevated)] p-5 rounded-xl border border-[var(--color-border)]">
+          <h3 class="font-medium text-sm mb-1">Git & GitHub</h3>
+          <p class="text-[var(--color-muted)] text-xs">Version control & collaboration</p>
+        </div>
+        <div class="skill-pill bg-[var(--color-elevated)] p-5 rounded-xl border border-[var(--color-border)]">
+          <h3 class="font-medium text-sm mb-1">AI & Machine Learning</h3>
+          <p class="text-[var(--color-muted)] text-xs">Models, pipelines, MLOps</p>
+        </div>
+        <div class="skill-pill bg-[var(--color-elevated)] p-5 rounded-xl border border-[var(--color-border)]">
+          <h3 class="font-medium text-sm mb-1">Problem Solving</h3>
+          <p class="text-[var(--color-muted)] text-xs">Logical thinking & architecture</p>
+        </div>
+      </div>
     </div>
-
-
   </section>
 
-  <section id="projects" class="py-24 bg-zinc-950">
-    <div class="max-w-6xl mx-auto px-6">
-      <h2 class="text-4x1 font-bold text-center mb-16">Featured Projects</h2>
-      <div
-        class="bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden hover:border-cyan-400 transition group">
-        <div class="h-56 bg-zinc-800 flex items-center justify-center">
-          <span class="text-6xl text-zinc-600 group-hover:text-cyan-400 transition">📊</span>
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2">Personal Portfolio Website</h3>
-          <h3>Personal Portfolio Website</h3>
-          <p>This very website! It was built from scratch using Tailwind CSS and HTML. The idea is to have a modern dark
-            design </p>
-          <div class="flex flex-wrap gap-2 mb-6">
-            <span class="text-xs bg-zinc-800 px-3 py-1 rounded-full text-cyan-400">HTML</span>
-            <span class="text-xs bg-zinc-800 px-3 py-1 rounded-full text-cyan-400">Tailwind</span>
-          </div>
-          <div class="flex gap-4">
-            <a href="#hero-section" class="text-cyan-400 hover:text-cyan-300 text-sm font-medium">Live Demo →</a>
-            <a href="https://github.com/ajogburn/Portfolio" target="_blank" text-zinc-400 hover:text-zinc-300 text-sm
-              font-medium">GitHub</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    </div>
-
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="py-24 bg-zinc-900">
-    <div class="max-w-6xl mx-auto px-6">
-      <div class="text-center mb-16">
-        <h2 class="text-4xl font-bold mb-4">Get In Touch</h2>
-        <p class="text-zinc-400 text-lg max-w-md mx-auto">
-          I'm currently open to new opportunities, challenges, or just having a friendly conversation.
-        </p>
+  <!-- Projects -->
+  <section id="projects" class="py-28">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl font-bold mb-2">Featured Projects</h2>
+        <p class="text-[var(--color-muted)] text-sm">Client websites and personal builds</p>
       </div>
 
-      <div class="max-w-2xl mx-auto">
-        <div class="grid md:grid-cols-2 gap-12">
+      <div class="grid md:grid-cols-2 gap-6">
 
-          <!-- Contact Details -->
-          <div class="space-y-8">
-            <div>
-              <p class="text-zinc-400 mb-1">Email</p>
-              <a href="mailto:ajogburn96@gmail.com" class="text-cyan-400 hover:text-cyan-300 text-xl">
-                ajogburn96@gmail.com
-              </a>
+        <!-- Joe's Window Tinting -->
+        <article class="project-card bg-[var(--color-elevated)] border border-[var(--color-border)] hover:border-cyan-400/50 rounded-2xl overflow-hidden flex flex-col">
+          <div class="h-44 bg-gradient-to-br from-zinc-800 to-zinc-900 flex items-center justify-center p-8">
+            <div class="text-center">
+              <p class="text-xs text-cyan-400 font-medium tracking-widest uppercase mb-2">Automotive</p>
+              <p class="text-2xl font-bold tracking-tight">Joe's Window Tinting</p>
             </div>
-
-            <div>
-              <p class="text-zinc-400 mb-1">Location</p>
-              <p class="text-zinc-300">Killeen, Texas, USA</p>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-[var(--color-muted)] text-sm leading-relaxed mb-5 flex-1">
+              A professional business website for a window tinting service — built to showcase services, build trust, and convert visitors into customers.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">HTML</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Tailwind</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Client Site</span>
             </div>
+            <a href="https://joeswindowtinting.com" target="_blank" rel="noopener noreferrer"
+              class="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1">
+              Visit Site
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </article>
 
-            <div>
-              <p class="text-zinc-400 mb-3">Connect</p>
-              <div class="flex gap-6 text-4xl">
-                <a href="https://github.com/ajogburn" target="_blank" rel="noopener noreferrer"
-                  class="hover:text-cyan-400 transition">GitHub</a>
+        <!-- Thank Q Tattoo -->
+        <article class="project-card bg-[var(--color-elevated)] border border-[var(--color-border)] hover:border-cyan-400/50 rounded-2xl overflow-hidden flex flex-col">
+          <div class="h-44 bg-gradient-to-br from-zinc-900 via-zinc-800 to-zinc-900 flex items-center justify-center p-8">
+            <div class="text-center">
+              <p class="text-xs text-cyan-400 font-medium tracking-widest uppercase mb-2">Tattoo Artist</p>
+              <p class="text-2xl font-bold tracking-tight">Thank Q Tattoo</p>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-[var(--color-muted)] text-sm leading-relaxed mb-5 flex-1">
+              Portfolio and booking site for Qwami Tucker — featuring a gallery of work, artist bio, services, and a clear path to book consultations.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">HTML</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Tailwind</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Client Site</span>
+            </div>
+            <a href="https://thankqtattoo.com" target="_blank" rel="noopener noreferrer"
+              class="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1">
+              Visit Site
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Crowned by Jia -->
+        <article class="project-card bg-[var(--color-elevated)] border border-[var(--color-border)] hover:border-cyan-400/50 rounded-2xl overflow-hidden flex flex-col">
+          <div class="h-44 bg-gradient-to-br from-zinc-800 via-amber-950/30 to-zinc-900 flex items-center justify-center p-8">
+            <div class="text-center">
+              <p class="text-xs text-cyan-400 font-medium tracking-widest uppercase mb-2">Beauty & Lifestyle</p>
+              <p class="text-2xl font-bold tracking-tight">Crowned by Jia</p>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-[var(--color-muted)] text-sm leading-relaxed mb-5 flex-1">
+              A polished brand website for a beauty and lifestyle business — designed to highlight services, showcase the brand identity, and attract new clients.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">HTML</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Tailwind</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Client Site</span>
+            </div>
+            <a href="https://crownedbyjia.com" target="_blank" rel="noopener noreferrer"
+              class="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1">
+              Visit Site
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Mr. LetsGo -->
+        <article class="project-card bg-[var(--color-elevated)] border border-[var(--color-border)] hover:border-cyan-400/50 rounded-2xl overflow-hidden flex flex-col">
+          <div class="h-44 bg-gradient-to-br from-zinc-900 to-zinc-800 flex items-center justify-center p-8">
+            <div class="text-center">
+              <p class="text-xs text-cyan-400 font-medium tracking-widest uppercase mb-2">E-Commerce</p>
+              <p class="text-2xl font-bold tracking-tight">Mr. LetsGo</p>
+            </div>
+          </div>
+          <div class="p-6 flex flex-col flex-1">
+            <p class="text-[var(--color-muted)] text-sm leading-relaxed mb-5 flex-1">
+              A hype sneaker storefront with bold styling, featured drops, and a shop experience built for streetwear culture. Deployed on Cloudflare Workers.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-5">
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">HTML</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Tailwind</span>
+              <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Cloudflare</span>
+            </div>
+            <a href="https://mrletsgo.ajogburn96.workers.dev/" target="_blank" rel="noopener noreferrer"
+              class="text-cyan-400 hover:text-cyan-300 text-sm font-medium inline-flex items-center gap-1">
+              Visit Site
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Portfolio (full width on md) -->
+        <article class="project-card md:col-span-2 bg-[var(--color-elevated)] border border-[var(--color-border)] hover:border-cyan-400/50 rounded-2xl overflow-hidden">
+          <div class="md:flex">
+            <div class="md:w-2/5 h-44 md:h-auto bg-gradient-to-br from-cyan-950/40 to-zinc-900 flex items-center justify-center p-8">
+              <div class="text-center">
+                <p class="text-xs text-cyan-400 font-medium tracking-widest uppercase mb-2">Personal</p>
+                <p class="text-2xl font-bold tracking-tight">This Portfolio</p>
+              </div>
+            </div>
+            <div class="md:w-3/5 p-6 flex flex-col justify-center">
+              <p class="text-[var(--color-muted)] text-sm leading-relaxed mb-5">
+                The site you're on right now — a clean, modern portfolio built from scratch with Tailwind CSS, showcasing my work and skills.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-5">
+                <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">HTML</span>
+                <span class="text-xs bg-zinc-800 px-2.5 py-1 rounded-md text-cyan-400">Tailwind</span>
+              </div>
+              <div class="flex gap-5">
+                <a href="#hero-section" class="text-cyan-400 hover:text-cyan-300 text-sm font-medium">Live Demo</a>
+                <a href="https://github.com/ajogburn/Portfolio" target="_blank" rel="noopener noreferrer"
+                  class="text-zinc-400 hover:text-zinc-300 text-sm font-medium">GitHub</a>
               </div>
             </div>
           </div>
+        </article>
 
-          <!-- Quick Email Button -->
-          <div
-            class="bg-zinc-800 p-10 rounded-3xl border border-zinc-700 flex flex-col justify-center items-center text-center">
-            <p class="text-zinc-400 mb-6">
-              Ready to work together?
-            </p>
-            <a href="mailto:anthony@anthonyogburn.com"
-              class="w-full text-center bg-cyan-500 hover:bg-cyan-400 text-black font-semibold py-5 rounded-2xl transition text-lg">
-              Send Me an Email
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-28 border-t border-[var(--color-border)]">
+    <div class="max-w-5xl mx-auto px-6">
+      <div class="text-center mb-14">
+        <h2 class="text-3xl font-bold mb-2">Get In Touch</h2>
+        <p class="text-[var(--color-muted)] text-sm max-w-md mx-auto">
+          Open to new opportunities, freelance projects, or a friendly conversation.
+        </p>
+      </div>
+
+      <div class="max-w-lg mx-auto">
+        <div class="bg-[var(--color-elevated)] border border-[var(--color-border)] rounded-2xl p-8 space-y-6">
+
+          <div>
+            <p class="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-1">Email</p>
+            <a href="mailto:ajogburn96@gmail.com" class="text-cyan-400 hover:text-cyan-300 font-medium">
+              ajogburn96@gmail.com
             </a>
           </div>
+
+          <div>
+            <p class="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-1">Location</p>
+            <p class="text-zinc-300">Killeen, Texas, USA</p>
+          </div>
+
+          <div>
+            <p class="text-xs text-[var(--color-muted)] uppercase tracking-wider mb-2">Connect</p>
+            <a href="https://github.com/ajogburn" target="_blank" rel="noopener noreferrer"
+              class="text-zinc-400 hover:text-cyan-400 transition text-sm font-medium">
+              GitHub →
+            </a>
+          </div>
+
+          <a href="mailto:ajogburn96@gmail.com"
+            class="block w-full text-center bg-cyan-400 hover:bg-cyan-300 text-zinc-950 font-medium py-3.5 rounded-lg transition text-sm mt-4">
+            Send an Email
+          </a>
 
         </div>
       </div>
     </div>
   </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[var(--color-border)] py-8">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-[var(--color-muted)]">
+      <p>© 2026 Anthony Ogburn</p>
+      <p>Built with HTML & Tailwind CSS</p>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+  </script>
 
 </body>
 
